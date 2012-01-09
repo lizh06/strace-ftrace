@@ -7,15 +7,17 @@ set(CMAKE_CXX_FLAGS "-Wall -std=c++0x")
 set(EXECUTABLE_OUTPUT_PATH bin)
 
 include_directories(
-	inc
+    inc
 )
 
 set(SRCS
-	src/main.cpp
+    src/main.cpp
+    src/Options.cpp
+    src/Tracer.cpp
 )
 
 add_executable(strace
-	${SRCS}
+    ${SRCS}
 )
 
 

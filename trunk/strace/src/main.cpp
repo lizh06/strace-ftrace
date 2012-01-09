@@ -1,5 +1,12 @@
 
-int main()
+#include "Options.hpp"
+#include "Tracer.hpp"
+
+int main(int ac, char ** av)
 {
-  return (0);
+    Options opt(ac, av);
+    Tracer tracer(opt);
+    tracer.launch();
+    return (0);
 }
+
