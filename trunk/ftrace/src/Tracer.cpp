@@ -8,10 +8,21 @@
 
 #include "Tracer.hpp"
 
+unsigned int getOpcode()
+{
+    __asm__ (
+        "jmp .start\n\t"
+        ".opcodeval:\n\t"
+        "call 0x0\n\t"
+        ".start:\n\t"
+        "push .opcodeval\n\t"
+        "pop eax"
+    );
+}
+
 Tracer::Tracer(Options& opt) :
     _options(opt)
 {
-
 }
 
 Tracer::~Tracer()
@@ -60,14 +71,14 @@ bool Tracer::_launchCommandProcess(char** command)
             res = ptrace(PTRACE_GETREGS, pid, NULL, &regs);
             if (res != -1)
             {
-                long opcode = ptrace(PTRACE_PEEKTEXT, pid, regs.eip, NULL);
+                long opcode = -1;// ptrace(PTRACE_PEEKTEXT, pid, regs.eip, NULL);
                 if (opcode != -1)
                 {
                     if ((opcode & 0xFFFF) == 0x80CD)
                     {
                         std::cout << "op OK" << std::endl;
-                        if (regs.eax == SYS_close)
-                            std::cout << "close !" << std::endl;
+                        // if (regs.eax == SYS_close)
+                           //  std::cout << "close !" << std::endl;
                     }
                 }
                 else
